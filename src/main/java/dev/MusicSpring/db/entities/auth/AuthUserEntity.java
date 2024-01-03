@@ -12,7 +12,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name="users")
+@Table(name="auth_users")
 @Getter
 @Setter
 @NoArgsConstructor

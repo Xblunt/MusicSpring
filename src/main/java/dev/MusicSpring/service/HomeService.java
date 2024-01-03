@@ -1,2 +1,7 @@
-package dev.MusicSpring.service;public class HomeService {
+package dev.MusicSpring.service;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class HomeService {
 }
