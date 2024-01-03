@@ -10,5 +10,5 @@ import java.util.List;
 public class AlbumDTO {
     private Long id;
     private String nameAlbum;
-    private List<TrackDTO> tracks;
+    private List<ShortTrack> tracks;
 }

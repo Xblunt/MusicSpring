@@ -10,4 +10,8 @@ import java.util.Date;
 public class UserDTO {
     private Long id;
     private String fio;
+    private Date date;
+    private String text;
+    private String photo;
+
 }

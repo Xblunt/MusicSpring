@@ -29,9 +29,16 @@ public class TrackEntity {
     private String text;
     @NotNull
     private String file;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "album_id", referencedColumnName = "id")
+    @JoinColumn(name = "album_id")
     private AlbumEntity album;
+//    public void setAlbum(AlbumEntity album) {
+//        this.album = album;
+//        if (album != null) {
+//            album.addTrack(this);
+//        }}
+
     @ManyToOne
     @JoinColumn(name = "playlist_id")
     private PlaylistEntity playlist;

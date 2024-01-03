@@ -10,7 +10,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name="user")
+@Table(name="usersss")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -24,7 +24,7 @@ public class UserEntity {
     @NotNull
     private String fio;
     @NotNull
-    private Date date;
+    private String date;
     @NotNull
     private String text;
     @NotNull

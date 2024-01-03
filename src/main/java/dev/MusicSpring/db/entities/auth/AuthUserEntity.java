@@ -1,6 +1,7 @@
 package dev.MusicSpring.db.entities.auth;
 
 import dev.MusicSpring.db.entities.BaseEntity;
+import dev.MusicSpring.db.entities.entity.PlaylistEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,27 +10,32 @@ import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
-@Table(name="auth_users")
+@Table(name="users")
 @Getter
 @Setter
 @NoArgsConstructor
 public class AuthUserEntity extends BaseEntity {
     static BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    public AuthUserEntity(boolean enabled, String username, String password, String name, String surname,Set roles){
+    public AuthUserEntity(boolean enabled, String fio,String username, String password, String date, String text, String photo, Set roles){
         this.password = passwordEncoder.encode(password);
         this.enabled = enabled;
-        this.username = username;
+        this.fio = fio;
         this.roles = roles;
-        this.name = name;
-        this.surname = surname;
+        this.text = text;
+        this.photo = photo;
+        this.date = date;
+        this.username = username;
     }
 
+    private String fio;
+    private String text;
+    private String date;
+    private String photo;
     private String username;
-    private String name;
-    private String surname;
     private boolean enabled;
     private String password;
     @OneToMany(cascade={CascadeType.ALL},
@@ -37,5 +43,6 @@ public class AuthUserEntity extends BaseEntity {
     @LazyCollection(LazyCollectionOption.FALSE)
     @JoinColumn(name="user_id", updatable=true)
     private Set<RoleUserEntity> roles;
-
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private PlaylistEntity playlist;
 }

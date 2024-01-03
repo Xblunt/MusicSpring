@@ -1,5 +1,6 @@
 package dev.MusicSpring.db.entities.entity;
 
+import dev.MusicSpring.db.entities.auth.AuthUserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +21,7 @@ public class PlaylistEntity {
     private Long id;
     @OneToOne
     @JoinColumn(name = "user_id")
-    private UserEntity user;
+    private AuthUserEntity user;
     @OneToMany(mappedBy = "playlist")
     private List<TrackEntity> tracks;
 }
