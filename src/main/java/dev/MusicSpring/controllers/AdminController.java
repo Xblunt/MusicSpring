@@ -25,7 +25,7 @@ public class AdminController {
     @GetMapping("/users")
     public Page<ShortUser> getAllUsers(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "2") int size) {
+            @RequestParam(defaultValue = "8") int size) {
         return adminService.getAllUsers(page, size);
     }
 
@@ -42,7 +42,7 @@ public class AdminController {
             @RequestParam(defaultValue = "8") int size) {
         return adminService.getAllAlbums(page, size);
     }
-    @GetMapping("/album/{id}")
+    @GetMapping("/album/{id}/tracks")
     public Page<AlbumDTO> getAllTracksAlbums(@PathVariable Long id,
                                              @RequestParam(defaultValue = "0") int page,
                                              @RequestParam(defaultValue = "8") int size) {
