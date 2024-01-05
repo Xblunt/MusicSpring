@@ -62,6 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/api/admin/**").hasAnyAuthority(BaseRole.SUPER_USER.getRole())
                 .antMatchers(HttpMethod.POST, "/api/admin/**").hasAnyAuthority(BaseRole.SUPER_USER.getRole())
                 .antMatchers(HttpMethod.DELETE,"/api/admin/**").hasAnyAuthority(BaseRole.SUPER_USER.getRole())
+                .antMatchers(HttpMethod.DELETE,"/api/admin/album/**").hasAnyAuthority(BaseRole.SUPER_USER.getRole())
                 .antMatchers(HttpMethod.PUT,"/api/admin/**").hasAnyAuthority(BaseRole.SUPER_USER.getRole())
                 .anyRequest().authenticated()
                 .and()

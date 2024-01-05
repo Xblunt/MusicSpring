@@ -11,6 +11,6 @@ import java.util.List;
 @AllArgsConstructor
 public class ShortAlbum {
     private Long id;
-    private String nameAlbum;
+    private String name_album;
     private  String picture;
 }

@@ -23,16 +23,16 @@ public class AdminController {
     private AdminService adminService;
 
     @GetMapping("/users")
-    public Page<ShortUser> getAllUsers(
+    public Page<UserDTO> getAllUsers(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "8") int size) {
+            @RequestParam(defaultValue = "25") int size) {
         return adminService.getAllUsers(page, size);
     }
 
     @GetMapping("/tracks")
-    public Page<ShortTrack> getAllTracks(
+    public Page<TrackDTO> getAllTracks(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "8") int size) {
+            @RequestParam(defaultValue = "25") int size) {
         return adminService.getAllTracks(page, size);
     }
 
@@ -43,7 +43,7 @@ public class AdminController {
         return adminService.getAllAlbums(page, size);
     }
     @GetMapping("/album/{id}/tracks")
-    public Page<AlbumDTO> getAllTracksAlbums(@PathVariable Long id,
+    public Page<ShortTrack> getAllTracksAlbums(@PathVariable Long id,
                                              @RequestParam(defaultValue = "0") int page,
                                              @RequestParam(defaultValue = "8") int size) {
         return adminService.getAllTracksAlbums(page, size, id);}
@@ -55,20 +55,20 @@ public class AdminController {
 //}
 
 
-    @PostMapping(consumes = "application/json", produces = "application/json")
+    @PostMapping(value = "/users", consumes = "application/json", produces = MediaType.APPLICATION_JSON_VALUE)
     public AuthUserEntity createUser(@RequestBody AuthUserEntity user) {
         return adminService.createUser(user);
     }
 
-//    @PostMapping(consumes = "application/json", produces = "application/json")
-//    public TrackEntity createTrack(@RequestBody TrackEntity track) {
-//        return adminService.createTrack(track);
-//    }
-//
-//    @PostMapping(consumes = "application/json", produces = "application/json")
-//    public AlbumEntity createAlbum(@RequestBody AlbumEntity album) {
-//        return adminService.createAlbum(album);
-//    }
+    @PostMapping(value = "/tracks",consumes = "application/json", produces = "application/json")
+    public TrackEntity createTrack(@RequestBody TrackEntity track) {
+        return adminService.createTrack(track);
+    }
+
+    @PostMapping(value = "/album",consumes = "application/json", produces = "application/json")
+    public AlbumEntity createAlbum(@RequestBody AlbumEntity album) {
+        return adminService.createAlbum(album);
+    }
 
     @PutMapping(value = "users/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public AuthUserEntity changeUser(@PathVariable("id") Long id, @RequestBody AuthUserEntity updatedUser) {
@@ -86,17 +86,17 @@ public class AdminController {
     }
 
     @DeleteMapping("users/{id}")
-    public Long deleteUser(@PathVariable("user_id") Long userId) {
+    public Long deleteUser(@PathVariable("id") Long userId) {
         return adminService.deleteUser(userId);
     }
 
     @DeleteMapping("tracks/{id}")
-    public Long deleteTrack(@PathVariable("track_id") Long trackId) {
+    public Long deleteTrack(@PathVariable("id") Long trackId) {
         return adminService.deleteTrack(trackId);
     }
 
-    @DeleteMapping("albums/{id}")
-    public Long deleteAlbum(@PathVariable("album_id") Long albumId) {
+    @DeleteMapping("albums/{id}/tracks")
+    public Long deleteAlbum(@PathVariable("id") Long albumId) {
         return adminService.deleteAlbum(albumId);
     }
 

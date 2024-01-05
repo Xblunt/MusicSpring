@@ -30,16 +30,16 @@ public class AdminService {
     @Autowired
     private AlbumRepo albumRepo;
 
-    public Page<ShortUser> getAllUsers(int page, int size) {
+    public Page<UserDTO> getAllUsers(int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size);
         return authUserRepo.findAll(pageRequest)
-                .map(el -> new ShortUser(el.getRoleId(), el.getFio()));
+                .map(el -> new UserDTO(el.getRoleId(), el.getFio(),  el.getText(), el.getDate(), el.getPhoto()));
     }
 
-    public Page<ShortTrack> getAllTracks(int page, int size) {
+    public Page<TrackDTO> getAllTracks(int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size);
         return trackRepo.findAll(pageRequest)
-                .map(el -> new ShortTrack(el.getId(), el.getName(), el.getAuthor()));
+                .map(el -> new TrackDTO(el.getId(), el.getName(), el.getAuthor(), el.getText(), el.getFile(),  el.getAlbum().getId()));
     }
 
     public Page<ShortAlbum> getAllAlbums(int page, int size) {
@@ -48,19 +48,34 @@ public class AdminService {
                 .map(el -> new ShortAlbum(el.getId(), el.getName_album(), el.getPicture()));
     }
 
-    public Page<AlbumDTO> getAllTracksAlbums(int page, int size, Long id) {
-        AlbumEntity album = albumRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Альбом не найден: " + id));
-        List<AlbumEntity> albumList = new ArrayList<>();
-        albumList.add(album);
-        PageRequest pageRequest = PageRequest.of(page, size);
-        return new PageImpl<>(albumList)
-                .map(el -> new AlbumDTO(el.getId(), el.getName_album(),
-                        el.getTracks().stream()
-                                .map(track -> new ShortTrack(track.getId(), track.getName(), track.getAuthor()))
-                                .collect(Collectors.toList())));
-    }
+//    public Page<AlbumDTO> getAllTracksAlbums(int page, int size, Long id) {
+//        AlbumEntity album = albumRepo.findById(id)
+//                .orElseThrow(() -> new RuntimeException("Альбом не найден: " + id));
+//        List<AlbumEntity> albumList = new ArrayList<>();
+//        albumList.add(album);
+//        PageRequest pageRequest = PageRequest.of(page, size);
+//        return new PageImpl<>(albumList)
+//                .map(el -> new AlbumDTO(el.getId(), el.getName_album(),
+//                        el.getTracks().stream()
+//                                .map(track -> new ShortTrack(track.getId(), track.getName(), track.getAuthor()))
+//                                .collect(Collectors.toList())));
+//    }
+public Page<ShortTrack> getAllTracksAlbums(int page, int size, Long id) {
+    AlbumEntity album = albumRepo.findById(id)
+            .orElseThrow(() -> new RuntimeException("Альбом не найден: " + id));
 
+
+    List<ShortTrack> trackList = album.getTracks().stream()
+            .map(track -> new ShortTrack(track.getId(), track.getName(), track.getAuthor()))
+            .collect(Collectors.toList());
+
+    int startIndex = page * size;
+    int endIndex = Math.min(startIndex + size, trackList.size());
+
+    List<ShortTrack> pagedTrackList = trackList.subList(startIndex, endIndex);
+
+    return new PageImpl<>(pagedTrackList, PageRequest.of(page, size), trackList.size());
+}
 
     public Long deleteUser(Long userId) {
         authUserRepo.deleteById(userId);
@@ -70,9 +85,23 @@ public class AdminService {
         trackRepo.deleteById(trackId);
         return trackId;
     }
-
+//public Long deleteTrack(Long trackId) {
+//    TrackEntity deletedTrack = trackRepo.findById(trackId).orElse(null);
+//    if (deletedTrack != null) {
+//        Long albumId = deletedTrack.getAlbumId();
+//        trackRepo.deleteById(trackId);
+//
+//
+//        if (albumId != null) {
+//            trackRepo.updateAlbumIdForDeletedAlbum(albumId);
+//        }
+//    }
+//
+//    return trackId;
+//}
     public Long deleteAlbum(Long albumId) {
         albumRepo.deleteById(albumId);
+        trackRepo.updateAlbumIdForDeletedAlbum(albumId);
         return albumId;
     }
     public AuthUserEntity createUser(AuthUserEntity user) {
@@ -89,6 +118,9 @@ public class AdminService {
                 .orElseThrow(() -> new RuntimeException("Пользователь не найден: " + id));
 
         existingUser.setFio(updatedUser.getFio());
+        existingUser.setText(updatedUser.getText());
+        existingUser.setDate(updatedUser.getDate());
+        existingUser.setPhoto(updatedUser.getPhoto());
 
         return authUserRepo.save(existingUser);
     }

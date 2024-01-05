@@ -1,6 +1,5 @@
 package dev.MusicSpring.db.dto;
 
-import dev.MusicSpring.db.entities.entity.AlbumEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -14,5 +13,5 @@ public class TrackDTO {
     private String author;
     private String text;
     private String file;
-    private List<AlbumDTO> albumId;
+    private Long album_id;
 }

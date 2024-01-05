@@ -9,6 +9,6 @@ import java.util.List;
 @AllArgsConstructor
 public class AlbumDTO {
     private Long id;
-    private String nameAlbum;
+    private String name_album;
     private List<ShortTrack> tracks;
 }
