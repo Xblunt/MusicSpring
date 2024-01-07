@@ -14,6 +14,7 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Page;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,7 +42,11 @@ public class AdminService {
         return trackRepo.findAll(pageRequest)
                 .map(el -> new TrackDTO(el.getId(), el.getName(), el.getAuthor(), el.getText(), el.getFile(),  el.getAlbum().getId()));
     }
+    public Optional<TrackDTO> getAllTracksByTrackId(Long trackId,  int page, int size) {
 
+        return trackRepo.findById(trackId)
+                .map(el -> new TrackDTO(el.getId(), el.getName(), el.getAuthor(), el.getText(), el.getFile(),  el.getAlbum().getId()));
+    }
     public Page<ShortAlbum> getAllAlbums(int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size);
         return albumRepo.findAll(pageRequest)
@@ -85,20 +90,7 @@ public Page<ShortTrack> getAllTracksAlbums(int page, int size, Long id) {
         trackRepo.deleteById(trackId);
         return trackId;
     }
-//public Long deleteTrack(Long trackId) {
-//    TrackEntity deletedTrack = trackRepo.findById(trackId).orElse(null);
-//    if (deletedTrack != null) {
-//        Long albumId = deletedTrack.getAlbumId();
-//        trackRepo.deleteById(trackId);
-//
-//
-//        if (albumId != null) {
-//            trackRepo.updateAlbumIdForDeletedAlbum(albumId);
-//        }
-//    }
-//
-//    return trackId;
-//}
+
     public Long deleteAlbum(Long albumId) {
         albumRepo.deleteById(albumId);
         trackRepo.updateAlbumIdForDeletedAlbum(albumId);
@@ -107,9 +99,14 @@ public Page<ShortTrack> getAllTracksAlbums(int page, int size, Long id) {
     public AuthUserEntity createUser(AuthUserEntity user) {
         return authUserRepo.save(user);
     }
-    public TrackEntity createTrack(TrackEntity track) {
-        return trackRepo.save(track);
-    }
+//    public TrackEntity createTrack(TrackEntity track) {
+//        return trackRepo.save(track);
+//    }
+public TrackEntity createTrack(Long id, TrackEntity track) {
+    AlbumEntity album = albumRepo.findById(id).orElseThrow(() -> new RuntimeException("Album not found"));
+    track.setAlbum(album);
+    return trackRepo.save(track);
+}
     public AlbumEntity createAlbum(AlbumEntity album) {
         return albumRepo.save(album);
     }
@@ -124,15 +121,62 @@ public Page<ShortTrack> getAllTracksAlbums(int page, int size, Long id) {
 
         return authUserRepo.save(existingUser);
     }
-    public TrackEntity changeTrack(Long id, TrackEntity updatedTrack) {
-        TrackEntity existingTrack = trackRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Песня не найдена: " + id));
 
-        existingTrack.setName(updatedTrack.getName());
-        existingTrack.setAuthor(updatedTrack.getAuthor());
+    public TrackEntity updateTrack(Long id, TrackDTO trackDto) {
+//        Optional<TrackEntity> optionalTrack = trackRepo.findById(id);
+//
+//
+//
+//        TrackEntity track = optionalTrack.get();
+        TrackEntity track = trackRepo.findById(id)
+               .orElseThrow(() -> new RuntimeException("Track not found: " + id));
+        track.setName(trackDto.getName());
+        track.setAuthor(trackDto.getAuthor());
+        track.setText(trackDto.getText());
+        track.setFile(trackDto.getFile());
 
-        return trackRepo.save(existingTrack);
+        Long newAlbumId = trackDto.getAlbum_id();
+
+
+        AlbumEntity newAlbum = albumRepo.findById(newAlbumId)
+                .orElseThrow(() -> new RuntimeException("Album not found: " + newAlbumId));
+
+//            Optional<AlbumEntity> optionalAlbum = albumRepo.findById(newAlbumId);
+
+
+        track.setAlbum(newAlbum);
+//            track.setAlbum(optionalAlbum.get());
+
+
+        return trackRepo.save(track);
     }
+//    public TrackEntity changeTrack(Long id, TrackEntity updatedTrack, String albumIdStr) {
+//        TrackEntity existingTrack = trackRepo.findById(id)
+//                .orElseThrow(() -> new RuntimeException("Track not found: " + id));
+//        Long albumId = Long.parseLong(albumIdStr);
+//        AlbumEntity newAlbum = albumRepo.findById(albumId)
+//                .orElseThrow(() -> new RuntimeException("Album not found: " + albumId));
+//
+//        existingTrack.setName(updatedTrack.getName());
+//        existingTrack.setAuthor(updatedTrack.getAuthor());
+//        existingTrack.setText(updatedTrack.getText());
+//        existingTrack.setFile(updatedTrack.getFile());
+//
+//        existingTrack.setAlbum(newAlbum);
+//        return trackRepo.save(existingTrack);
+//    }
+//public TrackEntity updateTrack(Long id, TrackEntity updatedTrack) {
+//    TrackEntity existingTrack = trackRepo.findById(id)
+//            .orElseThrow(() -> new RuntimeException("Track not found"));
+//    AlbumEntity newAlbum = albumRepo.findByTrack(updatedTrack)
+//            .orElseThrow(() -> new RuntimeException("Album not found"));
+//
+//    existingTrack.setName(updatedTrack.getName());
+//    existingTrack.setAuthor(updatedTrack.getAuthor());
+//        existingTrack.setAlbum(newAlbum); // Замените на актуальные свойства трека, которые хотите изменить
+//
+//    return trackRepo.save(updatedTrack);
+//}
 
     public AlbumEntity changeAlbum(Long id, AlbumEntity updatedAlbum) {
         AlbumEntity existingAlbum = albumRepo.findById(id)
