@@ -41,6 +41,12 @@ public class AdminController {
             @RequestParam(defaultValue = "25") int size) {
         return adminService.getAllTracks(page, size);
     }
+    @GetMapping("/album/{id}/tracks/add")
+    public Page<TrackDTO> getAllTracksAdd(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "25") int size,   @PathVariable("id") Long albumIdToExclude) {
+        return adminService.getAllTracksAdd(page,  size, albumIdToExclude);
+    }
     @GetMapping("/tracks/{id}")
     public Optional<TrackDTO> getAllTracksByTrackId(
             @PathVariable Long id,
@@ -111,6 +117,12 @@ public class AdminController {
     public TrackEntity updateTrack(@PathVariable Long id,  @RequestBody TrackDTO trackDto) {
 
         return adminService.updateTrack(id, trackDto);
+
+    }
+    @PutMapping(value = "/album/{albumId}/tracks/add/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public TrackEntity updateTrackAlbum(@PathVariable Long id, @PathVariable Long albumId, @RequestBody TrackDTO trackDto) {
+
+        return adminService.updateTrackAlbum(id, albumId, trackDto);
 
     }
 //@PutMapping(value = "tracks/{id}", consumes = "application/json", produces = "application/json")

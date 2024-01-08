@@ -16,11 +16,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 public class AdminService {
@@ -40,8 +39,41 @@ public class AdminService {
     public Page<TrackDTO> getAllTracks(int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size);
         return trackRepo.findAll(pageRequest)
+
                 .map(el -> new TrackDTO(el.getId(), el.getName(), el.getAuthor(), el.getText(), el.getFile(),  el.getAlbum().getId()));
     }
+//    public Page<TrackDTO> getAllTracksAdd(int page, int size) {
+//        PageRequest pageRequest = PageRequest.of(page, size);
+//        return trackRepo.findAll(pageRequest)
+//
+//                .map(el -> new TrackDTO(el.getId(), el.getName(), el.getAuthor(), el.getText(), el.getFile(),  el.getAlbum().getId()));
+//    }
+
+public Page<TrackDTO> getAllTracksAdd(int page, int size, Long albumIdToExclude) {
+
+    Set<TrackEntity> allTracksSet = trackRepo.findAll();
+
+    List<TrackEntity> allTracks = new ArrayList<>(allTracksSet);
+
+    List<TrackEntity> filteredTracks = allTracks.stream()
+            .filter(track -> !track.getAlbum().getId().equals(albumIdToExclude))
+            .collect(Collectors.toList());
+
+    List<TrackEntity> tracksForPage = filteredTracks.subList(page * size, Math.min((page * size) + size, filteredTracks.size()));
+    List<TrackDTO> trackDTOs = tracksForPage.stream()
+            .map(track -> new TrackDTO(
+                    track.getId(),
+                    track.getName(),
+                    track.getAuthor(),
+                    track.getText(),
+                    track.getFile(),
+                    track.getAlbum().getId()))
+            .collect(Collectors.toList());
+
+    Pageable pageable = PageRequest.of(page, size);
+
+    return new PageImpl<>(trackDTOs, pageable, filteredTracks.size());
+}
     public Optional<TrackDTO> getAllTracksByTrackId(Long trackId,  int page, int size) {
 
         return trackRepo.findById(trackId)
@@ -74,11 +106,7 @@ public Page<ShortTrack> getAllTracksAlbums(int page, int size, Long id) {
             .map(track -> new ShortTrack(track.getId(), track.getName(), track.getAuthor()))
             .collect(Collectors.toList());
 
-    int startIndex = page * size;
-    int endIndex = Math.min(startIndex + size, trackList.size());
-
-    List<ShortTrack> pagedTrackList = trackList.subList(startIndex, endIndex);
-
+    List<ShortTrack> pagedTrackList = trackList.subList(page * size, Math.min((page * size) + size, trackList.size()));
     return new PageImpl<>(pagedTrackList, PageRequest.of(page, size), trackList.size());
 }
 
@@ -147,6 +175,54 @@ public TrackEntity createTrack(Long id, TrackEntity track) {
         track.setAlbum(newAlbum);
 //            track.setAlbum(optionalAlbum.get());
 
+
+        return trackRepo.save(track);
+    }
+//    public TrackEntity updateTrackAlbum(Long id, Long albumid, TrackDTO trackDto) {
+////        Optional<TrackEntity> optionalTrack = trackRepo.findById(id);
+////
+////
+////
+////        TrackEntity track = optionalTrack.get();
+//        TrackEntity track = trackRepo.findById(id)
+//                .orElseThrow(() -> new RuntimeException("Track not found: " + id));
+//        track.setName(trackDto.getName());
+//        track.setAuthor(trackDto.getAuthor());
+//        track.setText(trackDto.getText());
+//        track.setFile(trackDto.getFile());
+//        AlbumEntity album = albumRepo.findById(albumid)
+//                .orElseThrow(() -> new RuntimeException("Альбом не найден: " + albumid));
+//        Long newAlbumId = trackDto.getAlbum_id();
+//
+//
+//        AlbumEntity newAlbum = albumRepo.findById(newAlbumId)
+//                .orElseThrow(() -> new RuntimeException("Album not found: " + newAlbumId));
+//
+////            Optional<AlbumEntity> optionalAlbum = albumRepo.findById(newAlbumId);
+//
+//
+//        track.setAlbum(newAlbum);
+////            track.setAlbum(optionalAlbum.get());
+//
+//
+//        return trackRepo.save(track);
+//    }
+
+    public TrackEntity updateTrackAlbum(Long id, Long albumId, TrackDTO trackDto) {
+        TrackEntity track = trackRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Track not found: " + id));
+
+        track.setName(trackDto.getName());
+        track.setAuthor(trackDto.getAuthor());
+        track.setText(trackDto.getText());
+        track.setFile(trackDto.getFile());
+
+        Long newAlbumId = trackDto.getAlbum_id();
+        AlbumEntity newAlbum = albumRepo.findById(newAlbumId)
+                .orElseThrow(() -> new RuntimeException("Album not found: " + newAlbumId));
+
+
+        track.setAlbum(newAlbum);
 
         return trackRepo.save(track);
     }
