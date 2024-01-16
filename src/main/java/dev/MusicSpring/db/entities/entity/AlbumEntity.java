@@ -2,6 +2,7 @@ package dev.MusicSpring.db.entities.entity;
 
 import com.sun.istack.NotNull;
 import dev.MusicSpring.db.dto.ShortTrack;
+import dev.MusicSpring.db.entities.auth.AuthUserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,16 +16,16 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
+
 public class AlbumEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+
     private String name_album;
 
-    @NotNull
+    @Column(columnDefinition = "TEXT")
     private String picture;
 
     @OneToMany(mappedBy = "album", cascade = CascadeType.ALL)
@@ -32,4 +33,12 @@ public class AlbumEntity {
 //    public void addTrack(TrackEntity track) {
 //        tracks.add(track);
 //    }
+
+    public AlbumEntity(Long id, String name_album, String picture) {
+        this.id = id;
+        this.name_album = name_album;
+        this.picture = picture;
+
+
+    }
 }

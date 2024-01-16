@@ -8,9 +8,11 @@ import java.sql.Time;
 @Data
 @AllArgsConstructor
 public class MessageDTO {
-    private Long id;
-    private Time timeMess;
+//    private Long id;
+//    private Time timeMess;
     private String textMess;
-    private Long friendId;
-    private ChatDTO chat;
+    private Long second;
+    private Long first;
+//    private Long chatId;
+//    private ChatDTO chat;
 }

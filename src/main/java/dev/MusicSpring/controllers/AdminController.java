@@ -16,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.Optional;
 
 @RestController
@@ -30,6 +31,7 @@ public class AdminController {
 
     @GetMapping("/users")
     public Page<UserDTO> getAllUsers(
+//            Principal user,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "25") int size) {
         return adminService.getAllUsers(page, size);
@@ -50,7 +52,7 @@ public class AdminController {
     @GetMapping("/tracks/{id}")
     public Optional<TrackDTO> getAllTracksByTrackId(
             @PathVariable Long id,
-
+//            Principal user,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "25") int size) {
         return adminService.getAllTracksByTrackId(id, page, size);

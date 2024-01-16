@@ -17,6 +17,7 @@ public interface TrackRepo extends PagingAndSortingRepository<TrackEntity, Long>
     public Set<TrackEntity> findAll();
     List<TrackEntity> findByAlbum(AlbumEntity album);
     Optional<TrackEntity> findById(Long id);
+//    List<TrackEntity> findByTrackIds(Long id);
     @Modifying
     @Query("UPDATE TrackEntity t SET t.album = NULL WHERE t.album.id = :albumId")
     void updateAlbumIdForDeletedAlbum(@Param("albumId") Long albumId);

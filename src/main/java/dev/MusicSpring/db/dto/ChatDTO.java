@@ -1,5 +1,6 @@
 package dev.MusicSpring.db.dto;
 
+import dev.MusicSpring.db.entities.auth.AuthUserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -7,7 +8,8 @@ import lombok.Data;
 @AllArgsConstructor
 public class ChatDTO {
     private Long id;
-    private UserDTO firstUser;
-    private UserDTO secondUser;
-    private SessionDTO session;
+    private Long first_id;
+    private  Long second_id;
+    private String chatname;
+//    private SessionDTO session;
 }

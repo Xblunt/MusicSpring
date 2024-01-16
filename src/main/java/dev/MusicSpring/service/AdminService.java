@@ -3,10 +3,12 @@ package dev.MusicSpring.service;
 import dev.MusicSpring.db.dto.*;
 import dev.MusicSpring.db.entities.auth.AuthUserEntity;
 import dev.MusicSpring.db.entities.entity.AlbumEntity;
+import dev.MusicSpring.db.entities.entity.PlaylistEntity;
 import dev.MusicSpring.db.entities.entity.TrackEntity;
 import dev.MusicSpring.db.entities.entity.UserEntity;
 import dev.MusicSpring.db.repositories.AlbumRepo;
 import dev.MusicSpring.db.repositories.AuthUserRepo;
+import dev.MusicSpring.db.repositories.PlaylistRepo;
 import dev.MusicSpring.db.repositories.TrackRepo;
 //import dev.MusicSpring.db.repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +31,12 @@ public class AdminService {
     private TrackRepo trackRepo;
     @Autowired
     private AlbumRepo albumRepo;
+    private PlaylistRepo playlistRepo;
 
     public Page<UserDTO> getAllUsers(int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size);
         return authUserRepo.findAll(pageRequest)
-                .map(el -> new UserDTO(el.getRoleId(), el.getFio(),  el.getText(), el.getDate(), el.getPhoto()));
+                .map(el -> new UserDTO(el.getRoleId(), el.getFio(), el.getDate()  , el.getText(), el.getPhoto(), el.getUsername()));
     }
 
     public Page<TrackDTO> getAllTracks(int page, int size) {
@@ -41,6 +44,8 @@ public class AdminService {
         return trackRepo.findAll(pageRequest)
 
                 .map(el -> new TrackDTO(el.getId(), el.getName(), el.getAuthor(), el.getText(), el.getFile(),  el.getAlbum().getId()));
+
+
     }
 //    public Page<TrackDTO> getAllTracksAdd(int page, int size) {
 //        PageRequest pageRequest = PageRequest.of(page, size);
@@ -67,8 +72,12 @@ public Page<TrackDTO> getAllTracksAdd(int page, int size, Long albumIdToExclude)
                     track.getAuthor(),
                     track.getText(),
                     track.getFile(),
-                    track.getAlbum().getId()))
+                    track.getAlbum().getId()
+
+
+            ))
             .collect(Collectors.toList());
+
 
     Pageable pageable = PageRequest.of(page, size);
 
@@ -77,7 +86,8 @@ public Page<TrackDTO> getAllTracksAdd(int page, int size, Long albumIdToExclude)
     public Optional<TrackDTO> getAllTracksByTrackId(Long trackId,  int page, int size) {
 
         return trackRepo.findById(trackId)
-                .map(el -> new TrackDTO(el.getId(), el.getName(), el.getAuthor(), el.getText(), el.getFile(),  el.getAlbum().getId()));
+               .map(el -> new TrackDTO(el.getId(), el.getName(), el.getAuthor(), el.getText(), el.getFile(),  el.getAlbum().getId()));
+
     }
     public Page<ShortAlbum> getAllAlbums(int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size);
@@ -103,7 +113,7 @@ public Page<ShortTrack> getAllTracksAlbums(int page, int size, Long id) {
 
 
     List<ShortTrack> trackList = album.getTracks().stream()
-            .map(track -> new ShortTrack(track.getId(), track.getName(), track.getAuthor()))
+           .map(track -> new ShortTrack(track.getId(), track.getName(), track.getAuthor()))
             .collect(Collectors.toList());
 
     List<ShortTrack> pagedTrackList = trackList.subList(page * size, Math.min((page * size) + size, trackList.size()));
@@ -165,7 +175,12 @@ public TrackEntity createTrack(Long id, TrackEntity track) {
 
         Long newAlbumId = trackDto.getAlbum_id();
 
-
+//        Long newPlayId = trackDto.getAlbum_id();
+//        PlaylistEntity newPlay = playlistRepo.findById(newPlayId)
+//                .orElseThrow(() -> new RuntimeException("Album not found: " + newPlayId));
+//
+//
+//        track.setPlaylists()(newPlay);
         AlbumEntity newAlbum = albumRepo.findById(newAlbumId)
                 .orElseThrow(() -> new RuntimeException("Album not found: " + newAlbumId));
 
@@ -216,7 +231,12 @@ public TrackEntity createTrack(Long id, TrackEntity track) {
         track.setAuthor(trackDto.getAuthor());
         track.setText(trackDto.getText());
         track.setFile(trackDto.getFile());
-
+//        Long newPlayId = trackDto.getAlbum_id();
+//        PlaylistEntity newPlay = playlistRepo.findById(newPlayId)
+//                .orElseThrow(() -> new RuntimeException("Album not found: " + newPlayId));
+//
+//
+//        track.setPlaylist(newPlay);
         Long newAlbumId = trackDto.getAlbum_id();
         AlbumEntity newAlbum = albumRepo.findById(newAlbumId)
                 .orElseThrow(() -> new RuntimeException("Album not found: " + newAlbumId));

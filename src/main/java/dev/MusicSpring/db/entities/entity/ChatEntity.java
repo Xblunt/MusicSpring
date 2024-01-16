@@ -1,6 +1,7 @@
 package dev.MusicSpring.db.entities.entity;
 
 import com.sun.istack.NotNull;
+import dev.MusicSpring.db.entities.auth.AuthUserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,23 +16,34 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
+
 public class ChatEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+ private  String chatname;
     @ManyToOne
     @JoinColumn(name = "first_id")
-    private UserEntity firstUser;
+    private AuthUserEntity firstUser;
 
     @ManyToOne
     @JoinColumn(name = "second_id")
-    private UserEntity secondUser;
+    private AuthUserEntity secondUser;
+
+    @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL)
+    private List<MessageEntity> message;
 
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "session_id", referencedColumnName = "id")
     private SessionEntity sessionEntity;
+
+    public ChatEntity(Long id, AuthUserEntity firstUser, AuthUserEntity secondUser,String chatname) {
+        this.id = id;
+        this.firstUser = firstUser;
+        this.secondUser = secondUser;
+        this.chatname = chatname;
+
+    }
 }

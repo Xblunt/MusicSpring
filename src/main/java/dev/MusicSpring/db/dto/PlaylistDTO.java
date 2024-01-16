@@ -9,7 +9,8 @@ import java.util.List;
 @AllArgsConstructor
 public class PlaylistDTO {
     private Long id;
-    private UserDTO user;
-    private UserDTO userid;
-    private List<Long> tracksId;
+//    private UserDTO user;
+//    private UserDTO userid;
+//    private List<Long> tracksId;
+//    private List<PlaylistTrackDTO> playlistTracks;
 }

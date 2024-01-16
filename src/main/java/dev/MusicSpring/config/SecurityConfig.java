@@ -57,8 +57,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/api/home/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/user").permitAll()
 
-
                 .antMatchers(HttpMethod.POST, "/api/logout").permitAll()
+//                .antMatchers(HttpMethod.GET, "/api/client/**").hasAnyAuthority(BaseRole.CLIENT.getRole())
+//                .antMatchers(HttpMethod.PUT,"/api/client/**").hasAnyAuthority(BaseRole.CLIENT.getRole())
+//                .antMatchers(HttpMethod.POST, "/api/client/**").hasAnyAuthority(BaseRole.CLIENT.getRole())
                 .antMatchers(HttpMethod.GET, "/api/admin/**").hasAnyAuthority(BaseRole.SUPER_USER.getRole())
                 .antMatchers(HttpMethod.POST, "/api/admin/**").hasAnyAuthority(BaseRole.SUPER_USER.getRole())
                 .antMatchers(HttpMethod.DELETE,"/api/admin/**").hasAnyAuthority(BaseRole.SUPER_USER.getRole())

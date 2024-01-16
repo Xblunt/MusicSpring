@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public enum BaseRole {
     SUPER_USER("ROLE_SUPER_USER", "SUPER_USER"),
-    USERS("ROLE_USERS", "USERS");
+    CLIENT("ROLE_CLIENT", "CLIENT");
 
     private final String value;
     private final String role;

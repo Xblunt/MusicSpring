@@ -13,5 +13,6 @@ public class UserDTO {
     private String date;
     private String text;
     private String photo;
+    private String username;
 
 }
