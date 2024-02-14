@@ -1,8 +1,11 @@
 package dev.MusicSpring.db.repositories;
 
+import dev.MusicSpring.db.entities.auth.AuthUserEntity;
 import dev.MusicSpring.db.entities.entity.AlbumEntity;
+import dev.MusicSpring.db.entities.entity.MessageEntity;
 import dev.MusicSpring.db.entities.entity.TrackEntity;
 import dev.MusicSpring.db.entities.entity.UserEntity;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -15,8 +18,11 @@ import java.util.Set;
 
 public interface TrackRepo extends PagingAndSortingRepository<TrackEntity, Long> {
     public Set<TrackEntity> findAll();
+    Optional<TrackEntity> findByname(String name);
     List<TrackEntity> findByAlbum(AlbumEntity album);
     Optional<TrackEntity> findById(Long id);
+    Page<TrackEntity> findAllByAlbum(AlbumEntity album, Pageable pageable);
+    Page<TrackEntity> findAllByAlbumIdNot(Long albumIdToExclude, Pageable pageable);
 //    List<TrackEntity> findByTrackIds(Long id);
     @Modifying
     @Query("UPDATE TrackEntity t SET t.album = NULL WHERE t.album.id = :albumId")

@@ -9,6 +9,7 @@ import dev.MusicSpring.db.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -36,54 +37,54 @@ public class Initializer {
 
     public void initial() {
 
-
-        AuthUserEntity admin = new AuthUserEntity(true, 1L, "Andrey", "admin", "1234", "02.02.2022", "Люблю пиццу", "URL",
+        String address = "http://127.0.0.1:9000/tracks";
+        AuthUserEntity admin = new AuthUserEntity(true, 1L, "Andrey", "admin", "1234", "02.02.2022", "Люблю пиццу", address+"/01.jpg",
                 Collections.singleton(new RoleUserEntity("admin", BaseRole.SUPER_USER))
         );
 
         authUserRepo.save(admin);
 
-        AuthUserEntity user1 = new AuthUserEntity(true, 2L, "Misha", "user1", "1234", "02.02.2022", "Случшаю музыку", "URL",
+        AuthUserEntity user1 = new AuthUserEntity(true, 2L, "Misha", "user1", "1234", "02.02.2022", "Случшаю музыку", address+"/01.jpg",
                 Collections.singleton(new RoleUserEntity("user1", BaseRole.CLIENT))
         );
 
         authUserRepo.save(user1);
 
-        AuthUserEntity user2 = new AuthUserEntity(true,3L,  "Daniil",  "user2", "1234", "02.02.2022", "Я помню.не помню", "URL",
+        AuthUserEntity user2 = new AuthUserEntity(true,3L,  "Daniil",  "user2", "1234", "02.02.2022", "Я помню.не помню", address+"/02.jpg",
                 Collections.singleton(new RoleUserEntity("user2", BaseRole.CLIENT))
         );
 
         authUserRepo.save(user2);
-        AuthUserEntity user3 = new AuthUserEntity(true, 4L, "Grigory", "user3", "1234", "02.02.2022", "ЯЯЯЯЯ устал", "URL",
+        AuthUserEntity user3 = new AuthUserEntity(true, 4L, "Grigory", "user3", "1234", "02.02.2022", "ЯЯЯЯЯ устал", address+"/06.jpg",
                 Collections.singleton(new RoleUserEntity("user3", BaseRole.CLIENT))
         );
 
         authUserRepo.save(user3);
 
-        AuthUserEntity user4 = new AuthUserEntity(true, 5L, "Sergey", "user4", "1234", "02.02.2022", "Быть или не быть", "URL",
+        AuthUserEntity user4 = new AuthUserEntity(true, 5L, "Sergey", "user4", "1234", "02.02.2022", "Быть или не быть", address+"/07.jpg",
                 Collections.singleton(new RoleUserEntity("user4", BaseRole.CLIENT))
         );
 
         authUserRepo.save(user4);
-        AuthUserEntity user5 = new AuthUserEntity(true, 6L,"Kirill", "user5", "1234", "02.02.2022", "Распутин мой кумир", "URL",
+        AuthUserEntity user5 = new AuthUserEntity(true, 6L,"Kirill", "user5", "1234", "02.02.2022", "Распутин мой кумир", address+"/07.jpg",
                 Collections.singleton(new RoleUserEntity("user5", BaseRole.CLIENT))
         );
 
         authUserRepo.save(user5);
-        AuthUserEntity user6 = new AuthUserEntity(true, 7L, "Vova", "user6", "1234", "02.02.2022", "Напишите сами", "URL",
+        AuthUserEntity user6 = new AuthUserEntity(true, 7L, "Vova", "user6", "1234", "02.02.2022", "Напишите сами", address+"/07.jpg",
                 Collections.singleton(new RoleUserEntity("user6", BaseRole.CLIENT))
         );
 
         authUserRepo.save(user6);
-        AuthUserEntity user7 = new AuthUserEntity(true, 8L, "VVV", "user6", "1234", "02.02.2022", "АГА, вот ты и попался", "URL",
+        AuthUserEntity user7 = new AuthUserEntity(true, 8L, "VVV", "user6", "1234", "02.02.2022", "АГА, вот ты и попался", address+"/07.jpg",
                 Collections.singleton(new RoleUserEntity("user6", BaseRole.CLIENT))
         );
 
         authUserRepo.save(user7);
 
 
-        AlbumEntity album = new AlbumEntity(1L,"2001 - Mutter","URL");
-        AlbumEntity album2 = new AlbumEntity(2L,"1997 - Sehnsucht","URL");
+        AlbumEntity album = new AlbumEntity(1L,"2001 - Mutter",address+"/2001%20-%20Mutter.jpg");
+        AlbumEntity album2 = new AlbumEntity(2L,"1997 - Sehnsucht",address+"/1997%20-%20Sehnsucht.jpg");
         albumRepo.save(album);
         albumRepo.save(album2);
         PlaylistEntity playlist = new PlaylistEntity(1L, admin);
@@ -110,13 +111,13 @@ public class Initializer {
 //        MessageEntity mess1 = new MessageEntity("11111", user2, chat1 );
 
 
-        TrackEntity track1 = new TrackEntity( "Amerika", "Rammstein", "Тут могло быть ваше описание или реклама", "url",album);
+        TrackEntity track1 = new TrackEntity( "Amerika", "Rammstein", "Тут могло быть ваше описание или реклама", address+"/Amerika.mp3",album);
 
-        TrackEntity track2 = new TrackEntity( "Ausländer", "Rammstein", "Тут могла быть ваша реклама", "url", album);
-        TrackEntity track3 = new TrackEntity( "Mann gegen Mann", "Rammstein", "Тут могла быть ваша реклама", "url", album2);
+        TrackEntity track2 = new TrackEntity( "Ausländer", "Rammstein", "Тут могла быть ваша реклама", address+"/Ausl%C3%A4nder.mp3", album);
+        TrackEntity track3 = new TrackEntity( "Mann gegen Mann", "Rammstein", "Тут могла быть ваша реклама", address+"/Rammstein%20-%20Mann%20gegen%20Mann.mp3", album2);
 
 
-        TrackEntity track4 = new TrackEntity( "Rein raus", "Rammstein", "Тут могла быть ваша реклама", "url", album);
+        TrackEntity track4 = new TrackEntity( "Rein raus", "Rammstein", "Тут могла быть ваша реклама", address+"/Rammstein%20-%20Rein%20raus.mp3", album);
 
         trackRepo.save(track1);
         trackRepo.save(track2);

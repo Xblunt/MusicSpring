@@ -60,6 +60,7 @@ public class TrackEntity {
 private MessageEntity message;
     @OneToMany(mappedBy = "track", cascade = CascadeType.ALL)
     private Set<PTEntity> playlisttrack2;
+
 public TrackEntity(String name,String author,  String text, String file, AlbumEntity album) {
     this.name = name;
     this.author = author;

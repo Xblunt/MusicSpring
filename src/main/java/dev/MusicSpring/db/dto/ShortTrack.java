@@ -13,7 +13,10 @@ import java.util.List;
 @AllArgsConstructor
 public class ShortTrack {
     private Long id;
+
     private String name;
     private String author;
+    private String file;
+
 //    private Set<PlaylistTrackEntity> playlistTracks;
 }

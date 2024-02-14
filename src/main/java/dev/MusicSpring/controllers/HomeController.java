@@ -154,13 +154,27 @@ public List<UserDTO> getAuth(
                                                @RequestParam(defaultValue = "0") int page,
                                                @RequestParam(defaultValue = "8") int size) {
         return homeService.getAllTracksAlbums(page, size, id);}
-    @GetMapping("/tracks/{id}")
-    public Optional<TrackDTO> getAllTracksByTrackId(
-            @PathVariable Long id,
+    @GetMapping("/tracks/send")
+    public Optional<ShortTrack> getAllTracksByTrackId(
+            @RequestParam Long trackIds) {
+        return homeService.getAllTracksByTrackId(trackIds);
+    }
+
+//    @GetMapping("/tracks/mess")
+//    public Optional<TrackDTO> getMessTrack(
+//            @RequestParam String name,
+//
+//            @RequestParam(defaultValue = "0") int page,
+//            @RequestParam(defaultValue = "25") int size) {
+//        return homeService.getMessTrack(name, page, size);
+//    }
+    @GetMapping("/tracks/mess")
+    public Optional<TrackDTO> getMessTrack(
+            @RequestParam Long trackId,
 
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "25") int size) {
-        return homeService.getAllTracksByTrackId(id, page, size);
+        return homeService.getMessTrack(trackId, page, size);
     }
     @GetMapping("/tracks")
     public Page<TrackDTO> getAllTracks(
@@ -179,10 +193,10 @@ public List<UserDTO> getAuth(
     public ChatEntity createChat( @RequestBody ChatEntity chat, @RequestParam("username") String username, @RequestParam("secondId") Long secondId) {
         return homeService.createChat(username,secondId, chat);
     }
-//    @PutMapping(value = "/album/{albumId}/tracks/add/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-//    public TrackEntity updateTrackAlbum(@PathVariable Long id, @PathVariable Long albumId, @RequestBody TrackDTO trackDto) {
-//
-//        return homeService.updateTrackPlaylist(id, albumId, trackDto);
-//
-//    }
+    @PutMapping(value = "/album/{albumId}/tracks/add/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public TrackEntity updateTrackAlbum(@PathVariable Long id, @PathVariable Long albumId, @RequestBody TrackDTO trackDto) {
+
+        return homeService.updateTrackPlaylist(id, albumId, trackDto);
+
+    }
 }

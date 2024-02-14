@@ -50,12 +50,11 @@ public class AdminController {
         return adminService.getAllTracksAdd(page,  size, albumIdToExclude);
     }
     @GetMapping("/tracks/{id}")
-    public Optional<TrackDTO> getAllTracksByTrackId(
-            @PathVariable Long id,
+    public TrackDTO getAllTracksByTrackId(
+            @PathVariable Long id
 //            Principal user,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "25") int size) {
-        return adminService.getAllTracksByTrackId(id, page, size);
+            ) {
+        return adminService.getTrackByTrackId(id);
     }
 
     @GetMapping("/album")
