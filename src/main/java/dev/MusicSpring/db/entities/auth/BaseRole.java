@@ -12,5 +12,5 @@ public enum BaseRole {
      BaseRole(String value, String role) {
         this.value = value;
         this.role = role;
-
-    }}
+    }
+}

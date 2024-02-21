@@ -1,11 +1,10 @@
 package dev.MusicSpring.mappers;
 
 import dev.MusicSpring.db.dto.ChatDTO;
-import dev.MusicSpring.db.entities.auth.AuthUserEntity;
 import dev.MusicSpring.db.entities.entity.ChatEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Named;
+
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Component;
 

@@ -17,6 +17,5 @@ import javax.persistence.*;
 public class RoleUserEntity extends BaseEntity {
     private String username;
     @Enumerated(EnumType.STRING)
-
     private BaseRole role;
 }

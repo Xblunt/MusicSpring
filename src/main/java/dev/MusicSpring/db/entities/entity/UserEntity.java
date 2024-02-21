@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
+
 
 @Entity
 @Table(name="usersss")
@@ -20,7 +20,6 @@ public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @NotNull
     private String fio;
     @NotNull
@@ -29,6 +28,7 @@ public class UserEntity {
     private String text;
     @NotNull
     private String photo;
+
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private PlaylistEntity playlist;
 }

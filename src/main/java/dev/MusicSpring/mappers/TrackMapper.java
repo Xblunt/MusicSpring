@@ -1,13 +1,10 @@
 package dev.MusicSpring.mappers;
 
 import dev.MusicSpring.db.dto.TrackDTO;
-import dev.MusicSpring.db.entities.auth.AuthUserEntity;
 import dev.MusicSpring.db.entities.entity.AlbumEntity;
 import dev.MusicSpring.db.entities.entity.TrackEntity;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
 @Component

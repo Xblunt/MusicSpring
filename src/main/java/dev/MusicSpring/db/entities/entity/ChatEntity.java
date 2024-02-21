@@ -1,14 +1,12 @@
 package dev.MusicSpring.db.entities.entity;
 
-import com.sun.istack.NotNull;
+
 import dev.MusicSpring.db.entities.auth.AuthUserEntity;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.sql.Time;
 import java.util.List;
 
 @Entity
@@ -22,7 +20,8 @@ public class ChatEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
- private  String chatname;
+    private  String chatname;
+
     @ManyToOne
     @JoinColumn(name = "first_id")
     private AuthUserEntity firstUser;
@@ -34,7 +33,6 @@ public class ChatEntity {
     @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL)
     private List<MessageEntity> message;
 
-
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "session_id", referencedColumnName = "id")
     private SessionEntity sessionEntity;
@@ -45,6 +43,5 @@ public class ChatEntity {
         this.secondUser = secondUser;
         this.chatname = chatname;
         this.sessionEntity = sessionEntity;
-
     }
 }

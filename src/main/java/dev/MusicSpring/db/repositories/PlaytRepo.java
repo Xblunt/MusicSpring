@@ -1,8 +1,6 @@
 package dev.MusicSpring.db.repositories;
 
-import dev.MusicSpring.db.entities.auth.AuthUserEntity;
 import dev.MusicSpring.db.entities.entity.PTEntity;
-import dev.MusicSpring.db.entities.entity.PlaylistEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;

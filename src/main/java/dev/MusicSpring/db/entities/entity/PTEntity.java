@@ -12,23 +12,22 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 public class PTEntity {
+
     @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
-   private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-   @JoinColumn(name = "playlist_id")
+    @JoinColumn(name = "playlist_id")
     private PlaylistEntity playlist;
 
-      @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "track_id")
-   private TrackEntity track;
+    private TrackEntity track;
 
 
     public PTEntity(TrackEntity track, PlaylistEntity playlist) {
-
         this.track = track;
         this.playlist = playlist;
-
    }
 }

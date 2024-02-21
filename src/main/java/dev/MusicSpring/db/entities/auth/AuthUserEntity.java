@@ -34,7 +34,6 @@ public class AuthUserEntity extends BaseEntity {
         this.photo = photo;
         this.date = date;
         this.username = username;
-
     }
 
     private String fio;
@@ -50,8 +49,10 @@ public class AuthUserEntity extends BaseEntity {
 
     @OneToMany(mappedBy = "second", cascade = CascadeType.ALL)
     private List<MessageEntity> message;
+
     @OneToMany(mappedBy = "first", cascade = CascadeType.ALL)
     private List<MessageEntity> message2;
+
     @OneToMany(cascade={CascadeType.ALL},
             orphanRemoval=true)
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -60,8 +61,10 @@ public class AuthUserEntity extends BaseEntity {
 
     @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
     private List<ChatEntity> firstUser;
+
     @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
     private List<ChatEntity> secondUser;
+
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private PlaylistEntity playlist;
 }

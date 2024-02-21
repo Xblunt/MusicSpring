@@ -4,18 +4,13 @@ import dev.MusicSpring.db.entities.auth.AuthUserEntity;
 import dev.MusicSpring.db.entities.auth.BaseRole;
 import dev.MusicSpring.db.entities.auth.RoleUserEntity;
 import dev.MusicSpring.db.entities.entity.*;
-//import dev.MusicSpring.db.entities.entity.PlaylistTrackEntity;
 import dev.MusicSpring.db.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.InputStream;
-import java.util.ArrayList;
+
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
 
 @Component
 public class Initializer {
@@ -25,7 +20,6 @@ public class Initializer {
     private TrackRepo trackRepo;
     @Autowired
     private AlbumRepo albumRepo;
-
     @Autowired
     private PlaylistRepo playlistRepo;
     @Autowired
@@ -36,6 +30,7 @@ public class Initializer {
     private MessageRepo messageRepo;
     @Autowired
     private PlaytRepo playtRepo;
+
 
     public void initial() {
 
@@ -119,7 +114,7 @@ public class Initializer {
         messageRepo.save(mess4);
         messageRepo.save(mess5);
         messageRepo.save(mess6);
-//        MessageEntity mess1 = new MessageEntity("11111", user2, chat1 );
+
 
 
         TrackEntity track1 = new TrackEntity( "Amerika", "Rammstein", "Тут могло быть ваше описание или реклама", address+"/Amerika.mp3",album);
@@ -134,7 +129,7 @@ public class Initializer {
         trackRepo.save(track2);
         trackRepo.save(track3);
         trackRepo.save(track4);
-//        trackRepo.save(track5);
+
 
 
         playlistRepo.save(playlist);
@@ -153,57 +148,7 @@ public class Initializer {
         playtRepo.save(ptt4);
         playtRepo.save(ptt5);
         playtRepo.save(ptt6);
-//        PlaylistTrackEntity pt1 = new PlaylistTrackEntity(1L);
-//        PlaylistTrackEntity pt2 = new PlaylistTrackEntity(2L);
-//        PlaylistTrackEntity pt3 = new PlaylistTrackEntity(3L);
-//        PlaylistTrackEntity pt4 = new PlaylistTrackEntity(4L);
-//        PlaylistTrackEntity pt5 = new PlaylistTrackEntity(5L);
-//        PlaylistTrackEntity pt6 = new PlaylistTrackEntity(6L);
-//
-////        pt1.setTracks(Stream.of(track1,track2,track4 ).collect(Collectors.toSet()));
-//        track1.setPlaylistTracks(Stream.of(pt1,pt2,pt3 ).collect(Collectors.toSet()));
-//        track2.setPlaylistTracks(Stream.of(pt1,pt2,pt3 ).collect(Collectors.toSet()));
-//        track3.setPlaylistTracks(Stream.of(pt5,pt2,pt3 ).collect(Collectors.toSet()));
-//        track3.setPlaylistTracks(Stream.of(pt6,pt3,pt4 ).collect(Collectors.toSet()));
-//        playlist2.setPlaylistTracks(Stream.of(pt6,pt3,pt4 ).collect(Collectors.toSet()));
-//        playlist.setPlaylistTracks(Stream.of(pt6,pt3,pt4 ).collect(Collectors.toSet()));
-//        playlist3.setPlaylistTracks(Stream.of(pt6,pt3,pt4 ).collect(Collectors.toSet()));
-//        playlist.setTracks(Stream.of(track3,track2,track1, track4 ).collect(Collectors.toSet()));
-//        TrackEntity track5 = new TrackEntity();
-//        track5.setName("трек");
-//        track5.setAuthor("Автор");
-//        track5.setText("Текст");
-//        track5.setFile("Путь");
-//        track5.setAlbum(album2);
-//        playlist.getTracks().add(track5);
-//        track5.getPlaylists().add(playlist);
 
-//        playlist.getTracks().add(track1);
-//        playlist2.getTracks().add(track1);
-//        track1.getPlaylists().add(playlist);
-//        track1.getPlaylists().add(playlist2);
-//        track2.getPlaylists().add(playlist);
-//        track3.getPlaylists().add(playlist);
-//        track4.getPlaylists().add(playlist);
-//        track4.getPlaylists().add(playlist2);
-//        trackRepo.save(track1);
-//        trackRepo.save(track2);
-//        trackRepo.save(track3);
-//        trackRepo.save(track4);
-
-//        PlaylistTrackEntity playlistTrack = new PlaylistTrackEntity(1L, playlist,track2);
-//        playlistTrackRepo.save(playlistTrack);
-//        PlaylistTrackEntity playlistTrack = new PlaylistTrackEntity(1L, playlist, track1);
-//        PlaylistTrackEntity playlistTrack1 = new PlaylistTrackEntity(2L, playlist2, track1);
-//playlistTrackRepo.save(playlistTrack);
-//        playlistTrackRepo.save(playlistTrack1);
-
-//        playlistTrackRepo.save(pt1);
-//        playlistTrackRepo.save(pt2);
-//        playlistTrackRepo.save(pt3);
-//        playlistTrackRepo.save(pt4);
-//        playlistTrackRepo.save(pt5);
-//        playlistTrackRepo.save(pt6);
     }
 }
 

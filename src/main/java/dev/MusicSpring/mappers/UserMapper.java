@@ -3,8 +3,6 @@ import dev.MusicSpring.db.dto.UserDTO;
 import dev.MusicSpring.db.entities.auth.AuthUserEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +10,6 @@ import org.springframework.stereotype.Component;
 @Component
 @Mapper
 public interface UserMapper {
-
 
     UserMapper MAPPER = Mappers.getMapper(UserMapper.class);
 
