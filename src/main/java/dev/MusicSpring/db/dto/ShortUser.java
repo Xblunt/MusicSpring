@@ -12,5 +12,4 @@ import lombok.Setter;
 public class ShortUser {
     private Long id;
     private String fio;
-
 }

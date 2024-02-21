@@ -1,13 +1,9 @@
 package dev.MusicSpring.db.dto;
 
-import dev.MusicSpring.db.entities.entity.PlaylistEntity;
-//import dev.MusicSpring.db.entities.entity.PlaylistTrackEntity;
+
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 
-import java.util.List;
-import java.util.Set;
 
 @Data
 
@@ -20,5 +16,4 @@ public class TrackDTO {
     private String text;
     private String file;
     private Long album_id;
-//    private List<PlaylistTrackEntity> playlistTracks;
 }

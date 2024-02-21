@@ -11,5 +11,4 @@ public class SessionDTO {
     private Double time;
     private String action;
     private Boolean pause;
-//    private  Long chatId;
 }

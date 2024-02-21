@@ -25,10 +25,7 @@ public class AuthController {
         log.warn("getUserAuth: " + (user != null ? user.getName() : "null"));
         return user;
     }
-//    public UserPrincipal user(@AuthenticationPrincipal UserPrincipal user) {
-//        log.warn("getUserAuth: " + (user != null ? user.getName() + ", " + user.getId() : "null"));
-//        return user;
-//    }
+
 
     @PostMapping(path = "/logout", consumes = "application/json", produces = "application/json")
     @ResponseBody

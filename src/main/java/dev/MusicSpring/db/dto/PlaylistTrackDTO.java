@@ -9,5 +9,4 @@ public class PlaylistTrackDTO {
     private Long id;
     private Long playlistId;
     private Long trackId;
-
 }

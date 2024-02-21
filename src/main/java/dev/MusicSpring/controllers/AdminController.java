@@ -1,23 +1,18 @@
 package dev.MusicSpring.controllers;
 
-
 import dev.MusicSpring.db.dto.*;
 import dev.MusicSpring.db.entities.auth.AuthUserEntity;
 import dev.MusicSpring.db.entities.entity.AlbumEntity;
 import dev.MusicSpring.db.entities.entity.TrackEntity;
-import dev.MusicSpring.db.entities.entity.UserEntity;
 import dev.MusicSpring.db.repositories.AlbumRepo;
 import dev.MusicSpring.db.repositories.AuthUserRepo;
 import dev.MusicSpring.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
-import java.util.Optional;
+
 
 @RestController
 @RequestMapping("api/admin")
@@ -84,12 +79,6 @@ public class AdminController {
     {
         return adminService.getAllTracksAlbums(page, size, id);
     }
-//@GetMapping("/album/{id}")
-//public Page<AlbumDTO> getAllTracksAlbums(@PathVariable int id,
-//                                         @RequestParam(defaultValue = "0") int page,
-//                                         @RequestParam(defaultValue = "8") int size) {
-//    return adminService.getAllTracksAlbums(id, page, size);
-//}
 
 
     @PostMapping(value = "/users", consumes = "application/json", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -99,10 +88,6 @@ public class AdminController {
         return adminService.createUser(user);
     }
 
-//    @PostMapping(value = "/tracks",consumes = "application/json", produces = "application/json")
-//    public TrackEntity createTrack(@RequestBody TrackEntity track) {
-//        return adminService.createTrack(track);
-//    }
 
     @PostMapping(value = "/album/{id}/tracks", consumes = "application/json", produces = "application/json")
     public TrackEntity createTrack(
@@ -131,17 +116,6 @@ public class AdminController {
         return adminService.changeUser(id, updatedUser);
     }
 
-//    @PutMapping(value = "tracks/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-//    public TrackEntity changeTrack( @RequestParam(name = "newAlbumId") Long newAlbumId, @PathVariable Long id, @RequestBody TrackEntity updatedTrack) {
-//        AlbumEntity album = albumRepo.findById(id).orElseThrow(() -> new RuntimeException("Album not found"));
-//        updatedTrack.setAlbum(album);
-//        return adminService.changeTrack(newAlbumId, id, updatedTrack);
-//    }
-//@PutMapping(value = "tracks/{id}", consumes = "application/json", produces = "application/json")
-//public TrackEntity changeTrack(@PathVariable Long id, @RequestBody TrackEntity updatedTrack, @RequestParam("albumId") String albumIdStr) {
-//    return adminService.changeTrack(id, updatedTrack, albumIdStr);
-//}
-
 
     @PutMapping(value = "tracks/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public TrackEntity updateTrack(
@@ -160,10 +134,6 @@ public class AdminController {
     {
         return adminService.updateTrackAlbum(id, albumId, trackDto);
     }
-//@PutMapping(value = "tracks/{id}", consumes = "application/json", produces = "application/json")
-//public TrackEntity updateTrack(@PathVariable Long id, @RequestBody TrackEntity updatedTrack) {
-//    return adminService.updateTrack(id, updatedTrack);
-//}
 
 
     @PutMapping(value = "album/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
