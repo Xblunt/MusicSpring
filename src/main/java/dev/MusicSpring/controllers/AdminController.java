@@ -33,58 +33,58 @@ public class AdminController {
     public Page<UserDTO> getAllUsers(
 //            Principal user,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "25") int size) {
+            @RequestParam(defaultValue = "25") int size)
+    {
         return adminService.getAllUsers(page, size);
     }
 
     @GetMapping("/tracks")
     public Page<TrackDTO> getAllTracks(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "25") int size) {
+            @RequestParam(defaultValue = "25") int size)
+    {
         return adminService.getAllTracks(page, size);
     }
     @GetMapping("/album/{id}/tracks/add")
     public Page<TrackDTO> getAllTracksAdd(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "25") int size,   @PathVariable("id") Long albumIdToExclude) {
+            @RequestParam(defaultValue = "25") int size,
+            @PathVariable("id") Long albumIdToExclude)
+    {
         return adminService.getAllTracksAdd(page,  size, albumIdToExclude);
     }
     @GetMapping("/tracks/{id}")
     public TrackDTO getAllTracksByTrackId(
             @PathVariable Long id
 //            Principal user,
-            ) {
+            )
+    {
         return adminService.getTrackByTrackId(id);
     }
 
     @GetMapping("/album")
     public Page<ShortAlbum> getAllAlbums(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "8") int size) {
+            @RequestParam(defaultValue = "8") int size)
+    {
         return adminService.getAllAlbums(page, size);
     }
     @GetMapping("/album/{id}/tracks")
     public Page<ShortTrack> getAllTracksAlbums(@PathVariable Long id,
                                              @RequestParam(defaultValue = "0") int page,
-                                             @RequestParam(defaultValue = "8") int size) {
-        return adminService.getAllTracksAlbums(page, size, id);}
-//@GetMapping("/album/{id}")
-//public Page<AlbumDTO> getAllTracksAlbums(@PathVariable int id,
-//                                         @RequestParam(defaultValue = "0") int page,
-//                                         @RequestParam(defaultValue = "8") int size) {
-//    return adminService.getAllTracksAlbums(id, page, size);
-//}
+                                             @RequestParam(defaultValue = "8") int size)
+    {
+        return adminService.getAllTracksAlbums(page, size, id);
+    }
 
 
     @PostMapping(value = "/users", consumes = "application/json", produces = MediaType.APPLICATION_JSON_VALUE)
-    public AuthUserEntity createUser(@RequestBody AuthUserEntity user) {
+    public AuthUserEntity createUser(
+            @RequestBody AuthUserEntity user)
+    {
         return adminService.createUser(user);
     }
 
-//    @PostMapping(value = "/tracks",consumes = "application/json", produces = "application/json")
-//    public TrackEntity createTrack(@RequestBody TrackEntity track) {
-//        return adminService.createTrack(track);
-//    }
 
     @PostMapping(value = "/album/{id}/tracks", consumes = "application/json", produces = "application/json")
     public TrackEntity createTrack(@PathVariable Long id, @RequestBody TrackEntity track) {
