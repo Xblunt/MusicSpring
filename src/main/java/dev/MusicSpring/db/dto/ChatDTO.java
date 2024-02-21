@@ -11,5 +11,6 @@ public class ChatDTO {
     private Long first_id;
     private  Long second_id;
     private String chatname;
+    private  Long sessioId;
 //    private SessionDTO session;
 }

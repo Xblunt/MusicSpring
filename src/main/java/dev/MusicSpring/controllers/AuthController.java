@@ -22,9 +22,7 @@ public class AuthController {
     @GetMapping("user")
     @ResponseBody
     public Principal user(Principal user) {
-
         log.warn("getUserAuth: " + (user != null ? user.getName() : "null"));
-
         return user;
     }
 //    public UserPrincipal user(@AuthenticationPrincipal UserPrincipal user) {

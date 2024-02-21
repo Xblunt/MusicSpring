@@ -8,6 +8,8 @@ import java.sql.Time;
 @AllArgsConstructor
 public class SessionDTO {
     private Long id;
-    private Time time;
+    private Double time;
     private String action;
+    private Boolean pause;
+//    private  Long chatId;
 }

@@ -17,6 +17,7 @@ public interface ChatMapper {
     @Mapping(source = "firstUser.id", target = "first_id")
     @Mapping(source = "secondUser.id", target = "second_id")
     @Mapping(source = "chatname", target = "chatname")
+    @Mapping(source =  "sessionEntity.id", target = "sessioId")
     ChatDTO toDto(ChatEntity source);
 
 //    @Named("mapUserToId")

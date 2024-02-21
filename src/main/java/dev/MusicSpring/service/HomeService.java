@@ -8,6 +8,7 @@ import dev.MusicSpring.db.repositories.*;
 import dev.MusicSpring.mappers.*;
 import javax.validation.Valid;
 import net.bytebuddy.implementation.bytecode.ShiftLeft;
+import org.checkerframework.checker.nullness.Opt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -40,6 +41,8 @@ public class HomeService {
     private PlaylistRepo playlistRepo;
     @Autowired
     private PlaytRepo playtRepo;
+    @Autowired
+    private SessionRepo sessionRepo;
 
 
 
@@ -276,6 +279,11 @@ public class HomeService {
     @Transactional
     public ChatEntity createChat(String username,Long secondId, ChatEntity chat) {
 
+        SessionEntity session = new SessionEntity();
+        session.setAction(null);
+        session.setTime(null);
+        session = sessionRepo.save(session);
+
         Optional<AuthUserEntity> userOptional = authUserRepo.findByUsernameIgnoreCase(username);
         AuthUserEntity user = userOptional.get();
         Long first_id = user.getId();
@@ -287,13 +295,38 @@ public class HomeService {
         chat.setSecondUser(idUs2);
 
 
-        return chatRepo.save(chat);
+        chat.setSessionEntity(session);
 
+        return chatRepo.save(chat);
     }
     public Page<ShortAlbum> getAllAlbums(int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size);
         return albumRepo.findAll(pageRequest)
                 .map(ShortAlbumMapper.MAPPER::toDto);
+    }
+public Optional<SessionDTO> getSession(Long chatId){
+    return sessionRepo.findById(chatId)
+            .map(el -> new SessionDTO( el.getId(),el.getTime(),el.getAction(), el.getPause()));
+
+
+}
+    public SessionDTO updateSession(String action, Double time, Long chatId, Boolean pause) {
+        ChatEntity chat = chatRepo.findById(chatId)
+                .orElseThrow(() -> new RuntimeException("Чат не найден: " + chatId));
+
+        Long sessionid = chat.getSessionEntity().getId();
+        SessionEntity session = sessionRepo.findById(sessionid)
+                .orElseThrow(() -> new RuntimeException("Чат не найден: " + sessionid));
+
+
+        session.setAction(action);
+        session.setTime(time);
+        session.setPause(pause);
+
+        session = sessionRepo.save(session);
+
+
+        return new SessionDTO(session.getId(), session.getTime(), session.getAction(), session.getPause());
     }
 //    public Page<ShortAlbum> getAllAlbums(int page, int size) {
 //        PageRequest pageRequest = PageRequest.of(page, size);

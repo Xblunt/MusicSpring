@@ -39,11 +39,12 @@ public class ChatEntity {
     @JoinColumn(name = "session_id", referencedColumnName = "id")
     private SessionEntity sessionEntity;
 
-    public ChatEntity(Long id, AuthUserEntity firstUser, AuthUserEntity secondUser,String chatname) {
+    public ChatEntity(Long id, AuthUserEntity firstUser, AuthUserEntity secondUser,String chatname, SessionEntity sessionEntity) {
         this.id = id;
         this.firstUser = firstUser;
         this.secondUser = secondUser;
         this.chatname = chatname;
+        this.sessionEntity = sessionEntity;
 
     }
 }

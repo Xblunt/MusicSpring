@@ -29,6 +29,8 @@ public class Initializer {
     @Autowired
     private PlaylistRepo playlistRepo;
     @Autowired
+    private SessionRepo sessionRepo;
+    @Autowired
     private ChatRepo chatRepo;
     @Autowired
     private MessageRepo messageRepo;
@@ -90,10 +92,19 @@ public class Initializer {
         PlaylistEntity playlist = new PlaylistEntity(1L, admin);
         PlaylistEntity playlist2 = new PlaylistEntity(2L, user1);
         PlaylistEntity playlist3 = new PlaylistEntity(3l, user2);
-        ChatEntity chat1 = new ChatEntity(1L, user1, user2, "chat1");
-        ChatEntity chat2 = new ChatEntity(2L, user1, user3, "chat2");
-        ChatEntity chat3 = new ChatEntity(3L, user2, user3, "chat3");
+
+        SessionEntity session1 = new SessionEntity(1L, null, null, false);
+        SessionEntity session2 = new SessionEntity(2L, null, null, false);
+        sessionRepo.save(session2);
+        SessionEntity session3 = new SessionEntity(3L, null, null, false);
+        sessionRepo.save(session3);
+        ChatEntity chat1 = new ChatEntity(1L, user1, user2, "chat1", session1 );
+
+        ChatEntity chat2 = new ChatEntity(2L, user1, user3, "chat2", session2);
+        ChatEntity chat3 = new ChatEntity(3L, user2, user3, "chat3", session3);
+
         chatRepo.save(chat1);
+        sessionRepo.save(session1);
         chatRepo.save(chat2);
         chatRepo.save(chat3);
         MessageEntity mess1 = new MessageEntity("Привет, ты знаешь что такое безумие?", chat1, user1,user2 );
