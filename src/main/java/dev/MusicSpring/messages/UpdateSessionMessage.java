@@ -6,8 +6,9 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class UpdateSessionMessage {
-    String action;
+    Boolean action;
     Double time;
     Long chatId;
     Boolean pause;
+    Double currentTimeOnDevice;
 }

@@ -20,15 +20,17 @@ public class SessionEntity {
     private Long id;
     private Boolean pause;
     private Double time;
-    private String action;
+    private Boolean action;
+    private Double currentTimeOnDevice;
 
     @OneToOne(mappedBy = "sessionEntity", cascade = CascadeType.ALL)
     private ChatEntity chatEntity;
 
-    public SessionEntity(Long id, Double time, String action, Boolean pause) {
+    public SessionEntity(Long id, Double time, Boolean action, Boolean pause, Double currentTimeOnDevice) {
         this.id = id;
         this.time = time;
         this.action = action;
         this.pause = pause;
+        this.currentTimeOnDevice=currentTimeOnDevice;
     }
 }

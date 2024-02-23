@@ -88,10 +88,10 @@ public class Initializer {
         PlaylistEntity playlist2 = new PlaylistEntity(2L, user1);
         PlaylistEntity playlist3 = new PlaylistEntity(3l, user2);
 
-        SessionEntity session1 = new SessionEntity(1L, null, null, false);
-        SessionEntity session2 = new SessionEntity(2L, null, null, false);
+        SessionEntity session1 = new SessionEntity(1L, null, null, false, null);
+        SessionEntity session2 = new SessionEntity(2L, null, null, false, null);
         sessionRepo.save(session2);
-        SessionEntity session3 = new SessionEntity(3L, null, null, false);
+        SessionEntity session3 = new SessionEntity(3L, null, null, false, null);
         sessionRepo.save(session3);
         ChatEntity chat1 = new ChatEntity(1L, user1, user2, "chat1", session1 );
 

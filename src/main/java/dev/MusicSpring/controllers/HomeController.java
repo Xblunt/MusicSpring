@@ -13,8 +13,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -81,18 +83,46 @@ public class HomeController {
     }
 
 
-    @MessageMapping("/sinx")
-    @SendTo({"/chats/session"})
-    public SessionDTO updateSession(
-            UpdateSessionMessage message)
-    {
-    String action = message.getAction();
-    Double time = message.getTime();
-    Long chatId = message.getChatId();
-    Boolean pause = message.getPause();
-    return homeService.updateSession(action, time, chatId, pause);
-    }
+//    @MessageMapping("/sinx")
+//    @SendTo({"/chats/session/{chatId}"})
+//    public SessionDTO updateSession(
+//
+//            UpdateSessionMessage message)
+//    {
+//    Boolean action = message.getAction();
+//    Double time = message.getTime();
+//    Long chatId = message.getChatId();
+//    Boolean pause = message.getPause();
+//    Double currentTimeOnDevice = message.getCurrentTimeOnDevice();
+//    return homeService.updateSession(action, time, chatId, pause, currentTimeOnDevice);
+//    }
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
 
+    @MessageMapping("/sinx/{chatId}")
+    public void updateSession(UpdateSessionMessage message) {
+        Boolean action = message.getAction();
+        Double time = message.getTime();
+        Long chatId = message.getChatId();
+        Boolean pause = message.getPause();
+        Double currentTimeOnDevice = message.getCurrentTimeOnDevice();
+
+        SessionDTO updatedSession = homeService.updateSession(action, time, chatId, pause, currentTimeOnDevice);
+
+        messagingTemplate.convertAndSend(String.format("/chats/session/%d", chatId), updatedSession);
+    }
+//    @MessageMapping("/sinx/{chatId}")
+//    @SendTo({"/chats/session"})
+//    public SessionDTO updateSession(
+//            UpdateSessionMessage message)
+//    {
+//        Boolean action = message.getAction();
+//        Double time = message.getTime();
+//        Long chatId = message.getChatId();
+//        Boolean pause = message.getPause();
+//        Double currentTimeOnDevice = message.getCurrentTimeOnDevice();
+//        return homeService.updateSession(action, time, chatId, pause,currentTimeOnDevice);
+//    }
 
     @GetMapping("/session")
     public  Optional<SessionDTO> getSession(

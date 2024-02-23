@@ -158,26 +158,56 @@ public class HomeService {
     }
 
 
+    @Transactional
     public MessageEntity createMess(Long id, MessageEntity message, String username, String messgg) {
         ChatEntity chat = chatRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Чат не найден: " + id));
-        AuthUserEntity secondId = chat.getSecondUser();
+        Long secondId = chat.getSecondUser().getId();
+        AuthUserEntity secondUser = authUserRepo.findById(secondId)
+                .orElseThrow(() -> new RuntimeException("Пользователь не найден: " + secondId));
         AuthUserEntity user = authUserRepo.findByUsernameIgnoreCase(username)
                 .orElseThrow(() -> new RuntimeException("Пользователь не найден: " + username));
-        if (secondId.equals(user)) {
+
+        if (secondId.equals(user.getId())) {
             AuthUserEntity notSecond = chat.getFirstUser();
             message.setSecond(notSecond);
         } else {
-            message.setSecond(secondId);
+            message.setSecond(secondUser);
         }
+
         message.setTrack(null);
         message.setChat(chat);
         message.setText_mess(messgg);
         message.setFirst(user);
 
-        return messageRepo.save(message);
-    }
+        MessageEntity savedMessage = messageRepo.save(message);
 
+        List<MessageEntity> userMessages = user.getMessage();
+        userMessages.add(savedMessage);
+        user.setMessage(userMessages);
+
+        List<MessageEntity> userMessages2 = user.getMessage2();
+        userMessages2.add(savedMessage);
+        user.setMessage2(userMessages2);
+
+        List<MessageEntity> seconduserMessages2 = secondUser.getMessage2();
+        seconduserMessages2.add(savedMessage);
+        secondUser.setMessage2(seconduserMessages2);
+
+        List<MessageEntity> seconduserMessages = secondUser.getMessage();
+        seconduserMessages.add(savedMessage);
+        secondUser.setMessage(seconduserMessages);
+
+        List<MessageEntity> chatMessages = chat.getMessage();
+        chatMessages.add(savedMessage);
+        chat.setMessage(chatMessages);
+
+        chatRepo.save(chat);
+        authUserRepo.save(user);
+        authUserRepo.save(secondUser);
+
+        return savedMessage;
+    }
 
     public Page<UserDTO> getAllUsers(String username, int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size);
@@ -214,11 +244,11 @@ public class HomeService {
 
     public Optional<SessionDTO> getSession(Long chatId){
         return sessionRepo.findById(chatId)
-            .map(el -> new SessionDTO( el.getId(),el.getTime(),el.getAction(), el.getPause()));
+            .map(el -> new SessionDTO( el.getId(),el.getTime(),el.getAction(), el.getPause(), el.getCurrentTimeOnDevice()));
 }
 
 
-    public SessionDTO updateSession(String action, Double time, Long chatId, Boolean pause) {
+    public SessionDTO updateSession(Boolean action, Double time, Long chatId, Boolean pause, Double currentTimeOnDevice) {
         ChatEntity chat = chatRepo.findById(chatId)
                 .orElseThrow(() -> new RuntimeException("Чат не найден: " + chatId));
 
@@ -230,9 +260,10 @@ public class HomeService {
         session.setAction(action);
         session.setTime(time);
         session.setPause(pause);
+        session.setCurrentTimeOnDevice(currentTimeOnDevice);
         session = sessionRepo.save(session);
 
-        return new SessionDTO(session.getId(), session.getTime(), session.getAction(), session.getPause());
+        return new SessionDTO(session.getId(), session.getTime(), session.getAction(), session.getPause(), session.getCurrentTimeOnDevice());
     }
 
 

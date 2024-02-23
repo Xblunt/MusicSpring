@@ -9,6 +9,7 @@ import java.sql.Time;
 public class SessionDTO {
     private Long id;
     private Double time;
-    private String action;
+    private Boolean action;
     private Boolean pause;
+    private Double currentTimeOnDevice;
 }
