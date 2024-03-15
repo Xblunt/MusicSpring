@@ -19,13 +19,13 @@ import java.security.Principal;
 @Slf4j
 
 public class AuthController {
+
     @GetMapping("user")
     @ResponseBody
     public Principal user(Principal user) {
         log.warn("getUserAuth: " + (user != null ? user.getName() : "null"));
         return user;
     }
-
 
     @PostMapping(path = "/logout", consumes = "application/json", produces = "application/json")
     @ResponseBody

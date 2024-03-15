@@ -37,21 +37,25 @@ public class AdminService {
      private MinioService minioService;
 
 
+
     public Page<UserDTO> getAllUsers(int page, int size) {
-        PageRequest pageRequest = PageRequest.of(page, size);
+        Sort sort = Sort.by(Sort.Direction.ASC, "id");
+        PageRequest pageRequest = PageRequest.of(page, size, sort);
         return authUserRepo.findAll(pageRequest)
                 .map(UserMapper.MAPPER::toDto);
     }
 
 
     public Page<TrackDTO> getAllTracks(int page, int size) {
-        PageRequest pageRequest = PageRequest.of(page, size);
+        Sort sort = Sort.by(Sort.Direction.ASC, "id");
+        PageRequest pageRequest = PageRequest.of(page, size, sort);
         return trackRepo.findAll(pageRequest).map(TrackMapper.MAPPER::toDto);
     }
 
 
     public Page<TrackDTO> getAllTracksAdd(int page, int size, Long albumIdToExclude) {
-        Pageable pageable = PageRequest.of(page, size);
+        Sort sort = Sort.by(Sort.Direction.ASC, "id");
+        Pageable pageable = PageRequest.of(page, size,sort);
 
         Page<TrackEntity> trackPage = trackRepo.findAllByAlbumIdNot(albumIdToExclude, pageable);
 
@@ -70,7 +74,8 @@ public class AdminService {
 
 
     public Page<ShortAlbum> getAllAlbums(int page, int size) {
-        PageRequest pageRequest = PageRequest.of(page, size);
+        Sort sort = Sort.by(Sort.Direction.ASC, "id");
+        PageRequest pageRequest = PageRequest.of(page, size, sort);
         return albumRepo.findAll(pageRequest)
                 .map(ShortAlbumMapper.MAPPER::toDto);
     }

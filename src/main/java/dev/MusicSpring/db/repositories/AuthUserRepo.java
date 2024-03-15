@@ -21,6 +21,7 @@ public interface AuthUserRepo extends PagingAndSortingRepository<AuthUserEntity,
    Page<AuthUserEntity> findByUsernameNot(String username, Pageable pageable);
    public Set<AuthUserEntity> findAll();
 
+
    @Modifying
    @Query(value = "UPDATE users u SET u.enabled = false WHERE user_id = :id",
            nativeQuery = true)

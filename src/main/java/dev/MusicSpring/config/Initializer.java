@@ -102,7 +102,7 @@ public class Initializer {
         sessionRepo.save(session1);
         chatRepo.save(chat2);
         chatRepo.save(chat3);
-        MessageEntity mess1 = new MessageEntity("Привет, ты знаешь что такое безумие?", chat1, user1,user2 );
+        MessageEntity mess1 = new MessageEntity("Привет, ты знаешь что такое безумие?", chat1, user2,user1 );
         MessageEntity mess2 = new MessageEntity("Расскажи мне!",chat1,user1,user2 );
         MessageEntity mess3 = new MessageEntity("Сам давай", chat2,user1,user3 );
         MessageEntity mess4 = new MessageEntity("Не хочу", chat2,user1,user3 );
